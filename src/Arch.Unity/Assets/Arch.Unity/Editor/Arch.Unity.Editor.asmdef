@@ -1,0 +1,19 @@
+{
+    "name": "Arch.Unity.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b9786bef0a65448028008ae58d333763",
+        "GUID:e0cd26848372d4e5c891c569017e11f1"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

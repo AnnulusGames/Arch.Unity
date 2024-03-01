@@ -1,0 +1,11 @@
+{
+    "name": "com.annulusgames.arch.unity",
+    "version": "0.1.0",
+    "displayName": "Arch.Unity",
+    "description": "Arch for Unity",
+    "unity": "2022.2",
+    "author": {
+        "name": "Annulus Games",
+        "url": "https://annulusgames.com/"
+    }
+}
