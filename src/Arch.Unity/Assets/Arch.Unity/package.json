@@ -2,7 +2,7 @@
     "name": "com.annulusgames.arch.unity",
     "version": "0.1.0",
     "displayName": "Arch.Unity",
-    "description": "Arch for Unity",
+    "description": "Arch ECS integration for Unity.",
     "unity": "2022.2",
     "author": {
         "name": "Annulus Games",
