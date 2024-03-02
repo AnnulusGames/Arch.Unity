@@ -35,7 +35,7 @@ Arch is an ECS framework for C# that offers sufficient speed and allows the use 
 3. Enter the following URL:
 
 ```
-https://github.com/AnnulusGames/Arch.Unitygit?path=src/Arch.Unity/Assets/Arch.Unity
+https://github.com/AnnulusGames/Arch.Unity.git?path=src/Arch.Unity/Assets/Arch.Unity
 ```
 
 ## Package Structure

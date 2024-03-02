@@ -35,7 +35,7 @@ ArchはC#向けのECSフレームワークであり、十分な速度を持つ�
 4. 以下のURLを入力する
 
 ```
-https://github.com/AnnulusGames/Arch.Unitygit?path=src/Arch.Unity/Assets/Arch.Unity
+https://github.com/AnnulusGames/Arch.Unity.git?path=src/Arch.Unity/Assets/Arch.Unity
 ```
 
 ## パッケージ構成
