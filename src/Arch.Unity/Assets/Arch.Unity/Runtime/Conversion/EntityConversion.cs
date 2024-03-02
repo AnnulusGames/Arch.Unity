@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Arch.Core;
 
@@ -14,7 +13,7 @@ namespace Arch.Unity.Conversion
 
             Application.quitting += () =>
             {
-                world.Dispose();
+                if (World.Worlds[world.Id] != null) world.Dispose();
             };
         }
 #endif
