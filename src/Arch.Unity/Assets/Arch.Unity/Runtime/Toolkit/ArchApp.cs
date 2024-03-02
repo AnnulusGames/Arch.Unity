@@ -52,7 +52,7 @@ namespace Arch.Unity.Toolkit
             if (IsRunning)
             {
                 system.Initialize();
-                runner.Register(system);
+                runner.Add(system);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Arch.Unity.Toolkit
             foreach (var kv in systemGroups)
             {
                 kv.Value.Initialize();
-                kv.Key.Register(kv.Value);
+                kv.Key.Add(kv.Value);
             }
 
             return this;
@@ -91,7 +91,7 @@ namespace Arch.Unity.Toolkit
             if (!IsRunning) throw new InvalidOperationException("App is not running.");
             foreach (var kv in systemGroups)
             {
-                kv.Key.Unregister(kv.Value);
+                kv.Key.Remove(kv.Value);
             }
         }
 

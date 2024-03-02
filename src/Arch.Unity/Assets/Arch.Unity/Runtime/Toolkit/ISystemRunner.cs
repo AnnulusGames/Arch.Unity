@@ -5,7 +5,7 @@ namespace Arch.Unity.Toolkit
     public interface ISystemRunner
     {
         void Run();
-        void Register(ISystem<SystemState> system);
-        void Unregister(ISystem<SystemState> system);
+        void Add(ISystem<SystemState> system);
+        void Remove(ISystem<SystemState> system);
     }
 }

@@ -14,12 +14,12 @@ namespace Arch.Unity.Toolkit
         public double Time { get; set; } = 0.0;
         public float DeltaTime { get; set; } = 0.1f;
 
-        public void Register(ISystem<SystemState> system)
+        public void Add(ISystem<SystemState> system)
         {
             systems.Add(system);
         }
 
-        public void Unregister(ISystem<SystemState> system)
+        public void Remove(ISystem<SystemState> system)
         {
             systems.Remove(system);
         }

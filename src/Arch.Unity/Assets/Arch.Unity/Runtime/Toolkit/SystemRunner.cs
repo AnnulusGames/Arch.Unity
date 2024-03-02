@@ -7,7 +7,7 @@ using System;
 namespace Arch.Unity.Toolkit
 {
     // TODO: optimize register/unregister
-    
+
     public sealed class SystemRunner : ISystemRunner
     {
         static SystemRunner()
@@ -43,12 +43,12 @@ namespace Arch.Unity.Toolkit
         public static readonly ISystemRunner PostLateUpdate;
         public static readonly ISystemRunner TimeUpdate;
 
-        public void Register(ISystem<SystemState> system)
+        public void Add(ISystem<SystemState> system)
         {
             systems.Add(system);
         }
 
-        public void Unregister(ISystem<SystemState> system)
+        public void Remove(ISystem<SystemState> system)
         {
             systems.Remove(system);
         }
