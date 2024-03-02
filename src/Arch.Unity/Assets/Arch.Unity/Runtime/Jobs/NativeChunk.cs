@@ -27,11 +27,12 @@ namespace Arch.Unity.Jobs
                 if (!elementType.IsUnmanaged()) continue;
 
                 var componentType = Core.Utils.Component.GetComponentType(elementType);
-                var array = Unsafe.As<byte[]>(componentArray);
-                var ptr = Unsafe.AsPointer(ref array[0]);
-                gcHandles.Add(GCHandlePool.Create(componentArray));
 
-                nativeChunk.componentMap.Add(componentType.Id, ((IntPtr)ptr, chunk.Size));
+                var gcHandle = GCHandlePool.Create(componentArray);
+                gcHandles.Add(gcHandle);
+                var ptr = gcHandle.AddrOfPinnedObject();
+
+                nativeChunk.componentMap.Add(componentType.Id, (ptr, chunk.Size));
             }
 
             return nativeChunk;
