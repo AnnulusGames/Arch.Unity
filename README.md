@@ -181,7 +181,7 @@ Arch itself does not provide Systems. [Arch.Extended](https://github.com/genaray
 
 ### UnitySystemBase
 
-Instead of inheriting from `BaseSystem<W, T>`, implement Systems by inheriting from `UnityBaseSystem`. `UnityBaseSystem` inherits from `BaseSystem<World, SystemState>`, allowing access to information such as `Time` and `DeltaTime` from `SystemState`.
+Instead of inheriting from `BaseSystem<W, T>`, implement Systems by inheriting from `UnitySystemBase`. `UnitySystemBase` inherits from `BaseSystem<World, SystemState>`, allowing access to information such as `Time` and `DeltaTime` from `SystemState`.
 
 ```cs
 public class FooSystem : UnitySystemBase

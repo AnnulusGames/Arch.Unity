@@ -181,7 +181,7 @@ Arch自体はSystemを提供しておらず、[Arch.Extended](https://github.com
 
 ### UnitySystemBase
 
-Arch.Unityでは`BaseSystem<W, T>`の代わりに`UnityBaseSystem`を継承してSystemを実装します。`UnityBaseSystem`は`BaseSystem<World, SystemState>`を継承しており、`SystemState`からは`Time`や`DeltaTime`などの情報を取得できます。
+Arch.Unityでは`BaseSystem<W, T>`の代わりに`UnitySystemBase`を継承してSystemを実装します。`UnitySystemBase`は`BaseSystem<World, SystemState>`を継承しており、`SystemState`からは`Time`や`DeltaTime`などの情報を取得できます。
 
 ```cs
 public class FooSystem : UnitySystemBase
