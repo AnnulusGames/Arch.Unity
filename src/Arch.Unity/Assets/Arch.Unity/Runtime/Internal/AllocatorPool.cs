@@ -11,7 +11,7 @@ namespace Arch.Unity
         {
             if (!pool.TryPop(out var allocatorHelper))
             {
-                allocatorHelper = new AllocatorHelper<RewindableAllocator>(Allocator.TempJob);
+                allocatorHelper = new AllocatorHelper<RewindableAllocator>(Allocator.Persistent);
                 allocatorHelper.Allocator.Initialize(128 * 1024, true);
             }
             return allocatorHelper;
@@ -21,6 +21,15 @@ namespace Arch.Unity
         {
             allocatorHelper.Allocator.Rewind();
             pool.Push(allocatorHelper);
+        }
+
+        public static void Dispose()
+        {
+            while (pool.TryPop(out var allocatorHelper))
+            {
+                allocatorHelper.Allocator.Dispose();
+                allocatorHelper.Dispose();
+            }
         }
     }
 }

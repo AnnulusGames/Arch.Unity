@@ -30,9 +30,9 @@ namespace Arch.Unity
             }
         }
 
-        public static void Free()
+        public static void Dispose()
         {
-            while (!stack.TryPop(out var handle)) handle.Free();
+            while (stack.TryPop(out var handle)) handle.Free();
         }
     }
 }
