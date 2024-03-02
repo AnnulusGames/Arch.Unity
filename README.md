@@ -28,11 +28,11 @@ Arch is an ECS framework for C# that offers sufficient speed and allows the use 
 
 1. Use [Nuget For Unity](https://github.com/GlitchEnzo/NuGetForUnity) to install Arch and Arch.System.
    
-   ![img](docs/images/img-nuget-for-unity.png)
+<img src="https://github.com/AnnulusGames/Arch.Unity/blob/main/docs/images/img-nuget-for-unity.png" width="600">
 
-2. Open the Package Manager from Window > Package Manager.
-3. Click the "+" button > Add package from git URL.
-4. Enter the following URL:
+1. Open the Package Manager from Window > Package Manager.
+2. Click the "+" button > Add package from git URL.
+3. Enter the following URL:
 
 ```
 https://github.com/AnnulusGames/Arch.Unitygit?path=src/Arch.Unity/Assets/Arch.Unity
@@ -51,7 +51,7 @@ https://github.com/AnnulusGames/Arch.Unitygit?path=src/Arch.Unity/Assets/Arch.Un
 
 To create Entities from GameObjects, the `EntityConverter` component is provided. This allows for interoperation between GameObjects and Entities, including converting GameObjects to Entities, adding Components from GameObjects to Entities, and more.
 
-![img](docs/images/img-entity-converter-inspector.png)
+<img src="https://github.com/AnnulusGames/Arch.Unity/blob/main/docs/images/img-entity-converter-inspector.png" width="600">
 
 ### Conversion Mode
 
@@ -163,7 +163,7 @@ Due to the constraints of HPC#, reference types cannot be used. Additionally, op
 
 Arch.Unity provides an EditorWindow to display Entities for each World. You can open it from `Window > Arch > Arch Hierarchy`.
 
-![img](docs/images/img-arch-hierarchy.png)
+<img src="https://github.com/AnnulusGames/Arch.Unity/blob/main/docs/images/img-arch-hierarchy.png" width="600">
 
 The numbers in the Entity names represent `(Index:Version)`.
 
@@ -173,9 +173,7 @@ When you select an Entity in Arch Hierarchy, the Inspector displays a list of Co
 
 If the Entity has a `GameObjectReference` component, the synchronized GameObject is also displayed.
 
-![img](docs/images/img
-
--inspector.png)
+<img src="https://github.com/AnnulusGames/Arch.Unity/blob/main/docs/images/img-inspector.png" width="600">
 
 ## Toolkit
 
