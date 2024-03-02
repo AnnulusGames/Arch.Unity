@@ -174,16 +174,8 @@ namespace Arch.Unity.Jobs
             };
 
             var scheduleParams = new JobsUtility.JobScheduleParameters(UnsafeUtility.AddressOf(ref chunkJobData), GetReflectionData<T>(), dependsOn, scheduleMode);
-            JobHandle jobHandle;
-            if (scheduleMode == ScheduleMode.Parallel)
-            {
-                jobHandle = JobsUtility.ScheduleParallelFor(ref scheduleParams, nativeChunks.Length, 1);
-            }
-            else
-            {
-                jobHandle = JobsUtility.Schedule(ref scheduleParams);
-            }
-
+            var jobHandle = JobsUtility.ScheduleParallelFor(ref scheduleParams, nativeChunks.Length, 1);
+   
             var handle = new JobArchChunkHandle()
             {
                 JobHandle = jobHandle,
