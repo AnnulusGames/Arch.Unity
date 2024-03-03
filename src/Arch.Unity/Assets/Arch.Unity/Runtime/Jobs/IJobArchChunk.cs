@@ -72,6 +72,7 @@ namespace Arch.Unity.Jobs
         {
             public NativeArray<NativeChunk> ChunkArray;
             public T JobData;
+            public byte IsParallel;
         }
 
         internal readonly struct JobArchChunkStruct<T> where T : struct, IJobArchChunk
@@ -83,27 +84,37 @@ namespace Arch.Unity.Jobs
             {
                 if (jobReflectionData.Data == IntPtr.Zero)
                 {
-                    jobReflectionData.Data = JobsUtility.CreateJobReflectionData(typeof(JobWrapper<T>), (ExecuteJobFunction)Execute);
+                    jobReflectionData.Data = JobsUtility.CreateJobReflectionData(typeof(JobWrapper<T>), typeof(T), (ExecuteJobFunction)Execute);
                 }
             }
 
             public delegate void ExecuteJobFunction(ref JobWrapper<T> jobData, IntPtr additionalPtr, IntPtr bufferRangePatchData, ref JobRanges ranges, int jobIndex);
             public static unsafe void Execute(ref JobWrapper<T> jobData, IntPtr jobData2, IntPtr bufferRangePatchData, ref JobRanges ranges, int jobIndex)
             {
-                while (true)
+                if (jobData.IsParallel == 1)
                 {
-                    if (!JobsUtility.GetWorkStealingRange(ref ranges, jobIndex, out int begin, out int end))
+                    while (true)
                     {
-                        break;
+                        if (!JobsUtility.GetWorkStealingRange(ref ranges, jobIndex, out int begin, out int end))
+                        {
+                            break;
+                        }
+
+                        JobsUtility.PatchBufferMinMaxRanges(bufferRangePatchData, UnsafeUtility.AddressOf(ref jobData), begin, end - begin);
+
+                        var endThatCompilerCanSeeWillNeverChange = end;
+                        for (var i = begin; i < endThatCompilerCanSeeWillNeverChange; i++)
+                        {
+                            jobData.JobData.Execute(jobData.ChunkArray[i]);
+                        }
                     }
-
-                    JobsUtility.PatchBufferMinMaxRanges(bufferRangePatchData, UnsafeUtility.AddressOf(ref jobData), begin, end - begin);
-
-                    var endThatCompilerCanSeeWillNeverChange = end;
-                    for (var i = begin; i < endThatCompilerCanSeeWillNeverChange; i++)
+                }
+                else
+                {
+                    JobsUtility.PatchBufferMinMaxRanges(bufferRangePatchData, UnsafeUtility.AddressOf(ref jobData), 0, jobData.ChunkArray.Length);
+                    for (int i = 0; i < jobData.ChunkArray.Length; i++)
                     {
-                        var chunk = jobData.ChunkArray[i];
-                        jobData.JobData.Execute(chunk);
+                        jobData.JobData.Execute(jobData.ChunkArray[i]);
                     }
                 }
             }
@@ -167,14 +178,19 @@ namespace Arch.Unity.Jobs
                 nativeChunks.Add(nativeChunk);
             }
 
+            var isParallel = scheduleMode == ScheduleMode.Parallel;
+
             var chunkJobData = new JobWrapper<T>()
             {
                 ChunkArray = nativeChunks.AsArray(),
                 JobData = jobData,
+                IsParallel = isParallel ? (byte)1 : (byte)0
             };
 
             var scheduleParams = new JobsUtility.JobScheduleParameters(UnsafeUtility.AddressOf(ref chunkJobData), GetReflectionData<T>(), dependsOn, scheduleMode);
-            var jobHandle = JobsUtility.ScheduleParallelFor(ref scheduleParams, nativeChunks.Length, 1);
+            var jobHandle = isParallel
+                ? JobsUtility.ScheduleParallelFor(ref scheduleParams, nativeChunks.Length, 1)
+                : JobsUtility.Schedule(ref scheduleParams);
    
             var handle = new JobArchChunkHandle()
             {
