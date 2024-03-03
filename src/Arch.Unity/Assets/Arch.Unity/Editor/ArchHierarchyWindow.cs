@@ -39,6 +39,7 @@ namespace Arch.Unity.Editor
         void OnPlayModeStateChanged(PlayModeStateChange playModeStateChange)
         {
             treeView.SetSelection(Array.Empty<int>());
+            Repaint();
         }
 
         void OnGUI()
