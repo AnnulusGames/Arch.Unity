@@ -22,7 +22,7 @@ namespace Arch.Unity
         {
             if (app == null)
             {
-                app = world == null ? ArchApp.Create() : ArchApp.Create(world);
+                app = ArchApp.Create(world);
                 initialization?.Invoke(app);
             }
             return app;
