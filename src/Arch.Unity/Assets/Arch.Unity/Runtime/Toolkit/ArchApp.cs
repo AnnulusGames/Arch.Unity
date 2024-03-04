@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Arch.Core;
 using Arch.System;
+using UnityEngine;
 
 namespace Arch.Unity.Toolkit
 {
@@ -10,6 +11,7 @@ namespace Arch.Unity.Toolkit
     {
         World world;
         Dictionary<ISystemRunner, Group<SystemState>> systemGroups;
+        HashSet<ISystem<SystemState>> systemSet = new();
         bool isRunning;
 
         internal object[] createInstanceParameterCache;
@@ -42,6 +44,7 @@ namespace Arch.Unity.Toolkit
 
         public void RegisterSystem(ISystem<SystemState> system, ISystemRunner runner)
         {
+            systemSet.Add(system);
             if (!systemGroups.TryGetValue(runner, out var group))
             {
                 group = new Group<SystemState>(runner.GetType().Name);

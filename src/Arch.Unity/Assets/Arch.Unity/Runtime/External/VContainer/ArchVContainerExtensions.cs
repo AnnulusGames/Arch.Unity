@@ -48,6 +48,8 @@ namespace Arch.Unity
 
         public static RegistrationBuilder RegisterNewArchApp(this IContainerBuilder builder, Lifetime lifetime, World world, Action<ArchApp> configuration = null)
         {
+            if (world == null) world = World.Create();
+
             builder.RegisterBuildCallback(resolver =>
             {
                 var app = resolver.Resolve<ArchApp>();
@@ -59,11 +61,7 @@ namespace Arch.Unity
                 app.Run();
             });
 
-            builder.Register(resolver =>
-            {
-                var app = resolver.Resolve<ArchApp>();
-                return app.World;
-            }, lifetime);
+            builder.RegisterInstance(world);
             
             var registerationBuilder = new ArchAppRegistrationBuilder(lifetime, world, configuration);
             return builder.Register(registerationBuilder);
@@ -72,16 +70,13 @@ namespace Arch.Unity
         public static RegistrationBuilder RegisterSystemIntoArchApp<T>(this IContainerBuilder builder)
             where T : ISystem<SystemState>
         {
-            var registrationBuilder = new SystemRegistrationBuilder(typeof(T), SystemRunner.Default);
-            builder.Register(registrationBuilder).As<ISystem<SystemState>>();
-            return builder.Register(registrationBuilder);
+            return RegisterSystemIntoArchApp<T>(builder, SystemRunner.Default);
         }
 
         public static RegistrationBuilder RegisterSystemIntoArchApp<T>(this IContainerBuilder builder, ISystemRunner systemRunner)
             where T : ISystem<SystemState>
         {
-            var registrationBuilder = new SystemRegistrationBuilder(typeof(T), systemRunner);
-            builder.Register(registrationBuilder).As<ISystem<SystemState>>();
+            var registrationBuilder = new SystemRegistrationBuilder(typeof(T), systemRunner).AsSelf().AsImplementedInterfaces();
             return builder.Register(registrationBuilder);
         }
 
