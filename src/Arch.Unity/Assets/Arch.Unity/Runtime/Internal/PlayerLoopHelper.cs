@@ -48,30 +48,36 @@ namespace Arch.Unity
         public static event Action OnTimeUpdate;
 
         static bool initialized;
+        static bool eventsInitialized;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         static void Init()
         {
+            if (!eventsInitialized)
+            {
+                // Initialize JobArchChunkHandle
+                JobArchChunkHandle.Initialize();
+                OnUpdate += JobArchChunkHandle.CheckHandles;
+
+                // Initialize Apps
+                OnInitialization += SystemRunner.Initialization.Run;
+                OnEarlyUpdate += SystemRunner.EarlyUpdate.Run;
+                OnFixedUpdate += SystemRunner.FixedUpdate.Run;
+                OnPreUpdate += SystemRunner.PreUpdate.Run;
+                OnUpdate += SystemRunner.Update.Run;
+                OnPreLateUpdate += SystemRunner.PreLateUpdate.Run;
+                OnPostLateUpdate += SystemRunner.PostLateUpdate.Run;
+                OnTimeUpdate += SystemRunner.TimeUpdate.Run;
+
+                eventsInitialized = true;
+            }
+            
 #if UNITY_EDITOR
             var domainReloadDisabled = EditorSettings.enterPlayModeOptionsEnabled && EditorSettings.enterPlayModeOptions.HasFlag(EnterPlayModeOptions.DisableDomainReload);
             if (!domainReloadDisabled && initialized) return;
 #else
             if (initialized) return;
 #endif
-
-            // Initialize JobArchChunkHandle
-            JobArchChunkHandle.Initialize();
-            OnUpdate += JobArchChunkHandle.CheckHandles;
-
-            // Initialize Apps
-            OnInitialization += SystemRunner.Initialization.Run;
-            OnEarlyUpdate += SystemRunner.EarlyUpdate.Run;
-            OnFixedUpdate += SystemRunner.FixedUpdate.Run;
-            OnPreUpdate += SystemRunner.PreUpdate.Run;
-            OnUpdate += SystemRunner.Update.Run;
-            OnPreLateUpdate += SystemRunner.PreLateUpdate.Run;
-            OnPostLateUpdate += SystemRunner.PostLateUpdate.Run;
-            OnTimeUpdate += SystemRunner.TimeUpdate.Run;
 
             var playerLoop = PlayerLoop.GetCurrentPlayerLoop();
             Initialize(ref playerLoop);
