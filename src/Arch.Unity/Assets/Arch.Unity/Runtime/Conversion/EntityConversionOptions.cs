@@ -10,6 +10,7 @@ namespace Arch.Unity.Conversion
 
         [SerializeField] ConversionMode conversionMode = ConversionMode.ConvertAndDestroy;
         [SerializeField] bool convertHybridComponents = false;
+        [SerializeField] bool useDisabledComponent = false;
 
         public ConversionMode ConversionMode
         {
@@ -21,6 +22,12 @@ namespace Arch.Unity.Conversion
         {
             get => convertHybridComponents;
             set => convertHybridComponents = value;
+        }
+
+        public bool UseDisabledComponent
+        {
+            get => useDisabledComponent;
+            set => useDisabledComponent = value;
         }
 
         public bool Equals(EntityConversionOptions other)

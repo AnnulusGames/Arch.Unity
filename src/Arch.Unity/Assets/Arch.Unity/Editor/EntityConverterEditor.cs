@@ -6,7 +6,7 @@ namespace Arch.Unity.Editor
 {
     [CustomEditor(typeof(EntityConverter))]
     [CanEditMultipleObjects]
-    public class EntityConverterEditor : UnityEditor.Editor
+    public sealed class EntityConverterEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
@@ -21,6 +21,7 @@ namespace Arch.Unity.Editor
                 if (modeProperty.enumValueIndex == 1)
                 {
                     EditorGUILayout.PropertyField(optionsProperty.FindPropertyRelative("convertHybridComponents"));
+                    EditorGUILayout.PropertyField(optionsProperty.FindPropertyRelative("useDisabledComponent"));
                 }
             }
 

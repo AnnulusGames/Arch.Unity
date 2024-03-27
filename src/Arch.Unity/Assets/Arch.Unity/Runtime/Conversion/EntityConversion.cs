@@ -112,6 +112,7 @@ namespace Arch.Unity.Conversion
                 var syncWithEntity = gameObject.AddComponent<SyncWithEntity>();
                 syncWithEntity.World = world;
                 syncWithEntity.EntityReference = entityReference;
+                syncWithEntity.UseDisabledComponent = options.UseDisabledComponent;
             }
 
             return entityReference;
