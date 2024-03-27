@@ -78,6 +78,11 @@ namespace Arch.Unity.Conversion
             {
                 var component = components[i];
 
+                if (component is SyncWithEntity)
+                {
+                    throw new InvalidOperationException("A GameObject that has already been synchronized with an entity cannot be converted again.");
+                }
+
                 if (component is IComponentConverter componentConverter)
                 {
                     try
@@ -101,6 +106,12 @@ namespace Arch.Unity.Conversion
             if (options.ConversionMode == ConversionMode.ConvertAndDestroy)
             {
                 UnityEngine.Object.Destroy(gameObject);
+            }
+            else
+            {
+                var syncWithEntity = gameObject.AddComponent<SyncWithEntity>();
+                syncWithEntity.World = world;
+                syncWithEntity.EntityReference = entityReference;
             }
 
             return entityReference;

@@ -1,5 +1,4 @@
 using UnityEngine;
-using Arch.Core;
 
 namespace Arch.Unity.Conversion
 {
@@ -9,27 +8,9 @@ namespace Arch.Unity.Conversion
     {
         [SerializeField] EntityConversionOptions options;
 
-        World world;
-        EntityReference entityReference;
-
         void Awake()
         {
-            world = EntityConversion.DefaultWorld;
-            entityReference = EntityConversion.Convert(gameObject, world, options);
-        }
-
-        void OnDestroy()
-        {
-            if (options.ConversionMode == ConversionMode.SyncWithEntity && IsEntityAlive())
-            {
-                world.Destroy(entityReference);
-            }
-        }
-
-        public bool IsEntityAlive()
-        {
-            if (world == null) return false;
-            return world.IsAlive(entityReference);
+            EntityConversion.Convert(gameObject, options);
         }
     }
 }

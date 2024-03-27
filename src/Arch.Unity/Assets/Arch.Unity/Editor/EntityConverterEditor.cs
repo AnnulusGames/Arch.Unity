@@ -12,18 +12,6 @@ namespace Arch.Unity.Editor
         {
             serializedObject.Update();
 
-            if (Application.isPlaying)
-            {
-                if (((EntityConverter)target).IsEntityAlive())
-                {
-                    EditorGUILayout.HelpBox("This GameObject is synchronized with Entity.", MessageType.Info);
-                }
-                else
-                {
-                    EditorGUILayout.HelpBox("The Entity has been destroyed.", MessageType.Warning);
-                }
-            }
-
             var optionsProperty = serializedObject.FindProperty("options");
 
             using (new EditorGUI.DisabledScope(Application.isPlaying))
