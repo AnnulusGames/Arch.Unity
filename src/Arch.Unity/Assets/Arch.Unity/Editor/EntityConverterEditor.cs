@@ -12,25 +12,15 @@ namespace Arch.Unity.Editor
         {
             serializedObject.Update();
 
-            if (Application.isPlaying)
-            {
-                if (((EntityConverter)target).IsEntityAlive())
-                {
-                    EditorGUILayout.HelpBox("This GameObject is synchronized with Entity.", MessageType.Info);
-                }
-                else
-                {
-                    EditorGUILayout.HelpBox("The Entity has been destroyed.", MessageType.Warning);
-                }
-            }
+            var optionsProperty = serializedObject.FindProperty("options");
 
             using (new EditorGUI.DisabledScope(Application.isPlaying))
             {
-                var modeProperty = serializedObject.FindProperty("conversionMode");
+                var modeProperty = optionsProperty.FindPropertyRelative("conversionMode");
                 EditorGUILayout.PropertyField(modeProperty);
                 if (modeProperty.enumValueIndex == 1)
                 {
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("convertHybridComponents"));
+                    EditorGUILayout.PropertyField(optionsProperty.FindPropertyRelative("convertHybridComponents"));
                 }
             }
 

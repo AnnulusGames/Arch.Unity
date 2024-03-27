@@ -246,8 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0134bd735ff2b4ad5b8f57e6a38f2557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversionMode: 1
-  convertHybridComponents: 1
+  options:
+    conversionMode: 1
+    convertHybridComponents: 1
 --- !u!4 &1102268378
 Transform:
   m_ObjectHideFlags: 0
@@ -374,8 +375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0134bd735ff2b4ad5b8f57e6a38f2557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversionMode: 1
-  convertHybridComponents: 1
+  options:
+    conversionMode: 1
+    convertHybridComponents: 1
 --- !u!114 &1436135052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,8 +474,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0134bd735ff2b4ad5b8f57e6a38f2557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversionMode: 1
-  convertHybridComponents: 1
+  options:
+    conversionMode: 1
+    convertHybridComponents: 1
 --- !u!4 &1651383767
 Transform:
   m_ObjectHideFlags: 0
@@ -585,8 +588,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0134bd735ff2b4ad5b8f57e6a38f2557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversionMode: 1
-  convertHybridComponents: 1
+  options:
+    conversionMode: 1
+    convertHybridComponents: 1
 --- !u!4 &1700669743
 Transform:
   m_ObjectHideFlags: 0
@@ -698,8 +702,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0134bd735ff2b4ad5b8f57e6a38f2557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversionMode: 1
-  convertHybridComponents: 1
+  options:
+    conversionMode: 1
+    convertHybridComponents: 1
 --- !u!4 &2087777980
 Transform:
   m_ObjectHideFlags: 0
