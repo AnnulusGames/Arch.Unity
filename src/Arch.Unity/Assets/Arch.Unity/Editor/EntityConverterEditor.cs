@@ -24,13 +24,15 @@ namespace Arch.Unity.Editor
                 }
             }
 
+            var optionsProperty = serializedObject.FindProperty("options");
+
             using (new EditorGUI.DisabledScope(Application.isPlaying))
             {
-                var modeProperty = serializedObject.FindProperty("conversionMode");
+                var modeProperty = optionsProperty.FindPropertyRelative("conversionMode");
                 EditorGUILayout.PropertyField(modeProperty);
                 if (modeProperty.enumValueIndex == 1)
                 {
-                    EditorGUILayout.PropertyField(serializedObject.FindProperty("convertHybridComponents"));
+                    EditorGUILayout.PropertyField(optionsProperty.FindPropertyRelative("convertHybridComponents"));
                 }
             }
 

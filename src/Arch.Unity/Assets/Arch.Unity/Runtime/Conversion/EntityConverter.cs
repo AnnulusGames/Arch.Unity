@@ -7,8 +7,7 @@ namespace Arch.Unity.Conversion
     [DefaultExecutionOrder(-100)]
     public sealed class EntityConverter : MonoBehaviour
     {
-        [SerializeField] ConversionMode conversionMode;
-        [SerializeField] bool convertHybridComponents;
+        [SerializeField] EntityConversionOptions options;
 
         World world;
         EntityReference entityReference;
@@ -16,12 +15,12 @@ namespace Arch.Unity.Conversion
         void Awake()
         {
             world = EntityConversion.DefaultWorld;
-            entityReference = EntityConversion.Convert(gameObject, world, conversionMode, convertHybridComponents);
+            entityReference = EntityConversion.Convert(gameObject, world, options);
         }
 
         void OnDestroy()
         {
-            if (conversionMode == ConversionMode.SyncWithEntity && IsEntityAlive())
+            if (options.ConversionMode == ConversionMode.SyncWithEntity && IsEntityAlive())
             {
                 world.Destroy(entityReference);
             }

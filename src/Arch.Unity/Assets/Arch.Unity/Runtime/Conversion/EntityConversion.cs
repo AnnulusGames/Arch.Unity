@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityComponent = UnityEngine.Component;
 using Arch.Core;
 using Arch.Core.Utils;
-using System;
 
 namespace Arch.Unity.Conversion
 {
@@ -52,12 +52,22 @@ namespace Arch.Unity.Conversion
         }
 #endif
 
-        public static EntityReference Convert(GameObject gameObject, ConversionMode conversionMode = ConversionMode.ConvertAndDestroy, bool convertHybridComponents = false)
+        public static EntityReference Convert(GameObject gameObject)
         {
-            return Convert(gameObject, DefaultWorld, conversionMode, convertHybridComponents);
+            return Convert(gameObject, DefaultWorld, EntityConversionOptions.Default);
         }
 
-        public static EntityReference Convert(GameObject gameObject, World world, ConversionMode conversionMode = ConversionMode.ConvertAndDestroy, bool convertHybridComponents = false)
+        public static EntityReference Convert(GameObject gameObject, EntityConversionOptions options)
+        {
+            return Convert(gameObject, DefaultWorld, options);
+        }
+
+        public static EntityReference Convert(GameObject gameObject, World world)
+        {
+            return Convert(gameObject, world, EntityConversionOptions.Default);
+        }
+
+        public static EntityReference Convert(GameObject gameObject, World world, EntityConversionOptions options)
         {
             var components = gameObject.GetComponents<UnityComponent>();
             var converter = new Converter();
@@ -79,7 +89,7 @@ namespace Arch.Unity.Conversion
                         Debug.LogException(ex);
                     }
                 }
-                else if (conversionMode == ConversionMode.SyncWithEntity && convertHybridComponents)
+                else if (options.ConversionMode == ConversionMode.SyncWithEntity && options.ConvertHybridComponents)
                 {
                     converter.AddComponent((object)component);
                 }
@@ -88,7 +98,7 @@ namespace Arch.Unity.Conversion
             world ??= DefaultWorld;
             var entityReference = world.Reference(converter.Convert(world));
 
-            if (conversionMode == ConversionMode.ConvertAndDestroy)
+            if (options.ConversionMode == ConversionMode.ConvertAndDestroy)
             {
                 UnityEngine.Object.Destroy(gameObject);
             }
