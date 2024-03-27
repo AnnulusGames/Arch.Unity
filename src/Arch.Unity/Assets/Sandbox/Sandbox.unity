@@ -249,6 +249,7 @@ MonoBehaviour:
   options:
     conversionMode: 1
     convertHybridComponents: 1
+    useDisabledComponent: 1
 --- !u!4 &1102268378
 Transform:
   m_ObjectHideFlags: 0
@@ -378,6 +379,7 @@ MonoBehaviour:
   options:
     conversionMode: 1
     convertHybridComponents: 1
+    useDisabledComponent: 1
 --- !u!114 &1436135052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,6 +479,7 @@ MonoBehaviour:
   options:
     conversionMode: 1
     convertHybridComponents: 1
+    useDisabledComponent: 1
 --- !u!4 &1651383767
 Transform:
   m_ObjectHideFlags: 0
@@ -591,6 +594,7 @@ MonoBehaviour:
   options:
     conversionMode: 1
     convertHybridComponents: 1
+    useDisabledComponent: 1
 --- !u!4 &1700669743
 Transform:
   m_ObjectHideFlags: 0
@@ -705,6 +709,7 @@ MonoBehaviour:
   options:
     conversionMode: 1
     convertHybridComponents: 1
+    useDisabledComponent: 1
 --- !u!4 &2087777980
 Transform:
   m_ObjectHideFlags: 0
