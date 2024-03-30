@@ -23,6 +23,21 @@ namespace Arch.Unity.Tests.Runtime
             EntityConversion.OnConvert -= OnConvert;
 
             Assert.IsTrue(converted);
+
+            Object.Destroy(obj);
+        }
+
+        [Test]
+        public void Test_TryGetEntity()
+        {
+            var obj = new GameObject("Target");
+            var entityA = EntityConversion.Convert(obj, new EntityConversionOptions() { ConversionMode = ConversionMode.SyncWithEntity });
+            var result = EntityConversion.TryGetEntity(obj, out var entityB);
+
+            Assert.IsTrue(result);
+            Assert.That(entityA, Is.EqualTo(entityB));
+
+            Object.Destroy(obj);
         }
     }
 }
