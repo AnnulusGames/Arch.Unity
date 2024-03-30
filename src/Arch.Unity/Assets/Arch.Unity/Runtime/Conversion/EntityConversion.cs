@@ -52,6 +52,8 @@ namespace Arch.Unity.Conversion
         }
 #endif
 
+        public static event Action<EntityReference, World> OnConvert;
+
         public static EntityReference Convert(GameObject gameObject)
         {
             return Convert(gameObject, DefaultWorld, EntityConversionOptions.Default);
@@ -114,6 +116,8 @@ namespace Arch.Unity.Conversion
                 syncWithEntity.EntityReference = entityReference;
                 syncWithEntity.UseDisabledComponent = options.UseDisabledComponent;
             }
+
+            OnConvert?.Invoke(entityReference, world);
 
             return entityReference;
         }
