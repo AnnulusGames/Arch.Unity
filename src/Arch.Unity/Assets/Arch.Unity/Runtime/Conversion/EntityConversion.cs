@@ -122,6 +122,18 @@ namespace Arch.Unity.Conversion
             return entityReference;
         }
 
+        public static bool TryGetEntity(GameObject gameObject, out EntityReference entity)
+        {
+            if (gameObject.TryGetComponent<SyncWithEntity>(out var syncWithEntity))
+            {
+                entity = syncWithEntity.EntityReference;
+                return true;
+            }
+
+            entity = default;
+            return false;
+        }
+
         public static World DefaultWorld { get; set; }
     }
 }
