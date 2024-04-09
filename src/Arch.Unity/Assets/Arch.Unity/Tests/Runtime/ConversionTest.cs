@@ -39,5 +39,18 @@ namespace Arch.Unity.Tests.Runtime
 
             Object.Destroy(obj);
         }
+
+        [Test]
+        public void Test_TryGetGameObject()
+        {
+            var objA = new GameObject("Target");
+            var entity = EntityConversion.Convert(objA, new EntityConversionOptions() { ConversionMode = ConversionMode.SyncWithEntity });
+            var result = EntityConversion.TryGetGameObject(entity, out var objB);
+
+            Assert.IsTrue(result);
+            Assert.That(objA, Is.EqualTo(objB));
+
+            Object.Destroy(objA);
+        }
     }
 }
