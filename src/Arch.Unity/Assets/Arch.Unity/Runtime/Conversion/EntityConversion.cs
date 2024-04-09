@@ -134,6 +134,23 @@ namespace Arch.Unity.Conversion
             return false;
         }
 
+        public static bool TryGetGameObject(Entity entity, out GameObject gameObject)
+        {
+            return TryGetGameObject(entity, DefaultWorld, out gameObject);
+        }
+
+        public static bool TryGetGameObject(Entity entity, World world, out GameObject gameObject)
+        {
+            if (world.TryGet<GameObjectReference>(entity, out var reference))
+            {
+                gameObject = reference.GameObject;
+                return gameObject != null;
+            }
+
+            gameObject = default;
+            return false;
+        }
+
         public static World DefaultWorld { get; set; }
     }
 }
