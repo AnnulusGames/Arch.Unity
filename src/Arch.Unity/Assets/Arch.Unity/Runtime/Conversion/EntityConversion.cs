@@ -74,7 +74,10 @@ namespace Arch.Unity.Conversion
             var components = gameObject.GetComponents<UnityComponent>();
             var converter = new Converter();
 
-            converter.AddComponent(new GameObjectReference(gameObject));
+            if (options.ConversionMode == ConversionMode.SyncWithEntity)
+            {
+                converter.AddComponent(new GameObjectReference(gameObject));
+            }
 
             for (int i = 0; i < components.Length; i++)
             {
