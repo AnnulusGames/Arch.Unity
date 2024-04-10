@@ -199,6 +199,9 @@ namespace Arch.Unity.Editor
                     case Enum fieldValue:
                         EditorGUILayout.EnumPopup(label, fieldValue);
                         break;
+                    case UnityEngine.Object fieldValue:
+                        EditorGUILayout.ObjectField(label, fieldValue, fieldValue.GetType(), true);
+                        break;
                     case FixedString32Bytes fieldValue:
                         EditorGUILayout.TextField(label, fieldValue.ConvertToString());
                         break;
