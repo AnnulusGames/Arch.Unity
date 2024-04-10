@@ -83,6 +83,7 @@ namespace Arch.Unity.Editor
                 {
                     var entityReference = selectionProxy.entityReference;
                     var hasGameObject = selectionProxy.world.TryGet(entityReference, out GameObjectReference gameObjectReference);
+                    var hasName = selectionProxy.world.TryGet(entityReference, out EntityName entityName);
 
                     using (new EditorGUILayout.HorizontalScope())
                     {
@@ -96,7 +97,7 @@ namespace Arch.Unity.Editor
                         EditorGUI.indentLevel--;
                         EditorGUIUtility.labelWidth = 20f;
                     }
-
+                    
                     EditorGUILayout.ObjectField("From", hasGameObject ? gameObjectReference.GameObject : null, typeof(GameObject), true);
                 }
             }

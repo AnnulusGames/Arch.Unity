@@ -76,6 +76,11 @@ namespace Arch.Unity.Conversion
 
             converter.AddComponent(new GameObjectReference(gameObject));
 
+            if (options.UseNameComponent)
+            {
+                converter.AddComponent(new EntityName(gameObject.name));
+            }
+
             for (int i = 0; i < components.Length; i++)
             {
                 var component = components[i];
