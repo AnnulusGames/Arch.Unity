@@ -116,6 +116,7 @@ namespace Arch.Unity.Editor
         static void DrawMembers(object target, string rootPath, int depth)
         {
             if (depth > 10) return;
+            if (target == null) return;
 
             foreach (var fieldInfo in target.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
@@ -197,6 +198,9 @@ namespace Arch.Unity.Editor
                         break;
                     case Enum fieldValue:
                         EditorGUILayout.EnumPopup(label, fieldValue);
+                        break;
+                    case UnityEngine.Object fieldValue:
+                        EditorGUILayout.ObjectField(label, fieldValue, fieldValue.GetType(), true);
                         break;
                     case FixedString32Bytes fieldValue:
                         EditorGUILayout.TextField(label, fieldValue.ConvertToString());
