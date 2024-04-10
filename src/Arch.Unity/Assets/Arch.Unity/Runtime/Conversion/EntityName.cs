@@ -33,26 +33,5 @@ namespace Arch.Unity
             var str = Value;
             return str.ConvertToString();
         }
-
-        public static implicit operator FixedString64Bytes(EntityName entityName)
-        {
-            return entityName.Value;
-        }
-
-        public static implicit operator string(EntityName entityName)
-        {
-            var str = entityName.Value;
-            return str.ConvertToString();
-        }
-
-        public static implicit operator EntityName(FixedString64Bytes value)
-        {
-            return new(value);
-        }
-
-        public static implicit operator EntityName(string value)
-        {
-            return new(value);
-        }
     }
 }

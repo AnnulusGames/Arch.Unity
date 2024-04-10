@@ -7,8 +7,8 @@ namespace Arch.Unity.Tests.Runtime
         [Test]
         public void Test_EntityName_Equals()
         {
-            EntityName nameA = "Foo";
-            EntityName nameB = "Foo";
+            var nameA = new EntityName("Foo");
+            var nameB = new EntityName("Foo");
             Assert.That(nameA, Is.EqualTo(nameB));
         }
     }
