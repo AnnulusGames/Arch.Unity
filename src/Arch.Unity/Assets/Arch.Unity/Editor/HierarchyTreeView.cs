@@ -129,10 +129,11 @@ namespace Arch.Unity.Editor
         TreeViewItem CreateItem(Entity entity)
         {
             var reference = TargetWorld.Reference(entity);
+            var hasName = TargetWorld.TryGet(entity, out EntityName entityName);
             var item = Item.GetOrCreate();
             item.id = entity.Id;
             item.depth = 1;
-            item.displayName = $"Entity({entity.Id}:{reference.Version})";
+            item.displayName = hasName ? entityName.ToString() : $"Entity({entity.Id}:{reference.Version})";
             item.itemType = ItemType.Entity;
             item.entityReference = reference;
             return item;

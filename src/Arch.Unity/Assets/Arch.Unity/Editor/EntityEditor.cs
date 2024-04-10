@@ -83,8 +83,9 @@ namespace Arch.Unity.Editor
                 {
                     var entityReference = selectionProxy.entityReference;
                     var hasGameObject = selectionProxy.world.TryGet(entityReference, out GameObjectReference gameObjectReference);
+                    var hasName = selectionProxy.world.TryGet(entityReference, out EntityName entityName);
 
-                    EditorGUILayout.TextField($"Entity({entityReference.Entity.Id}:{entityReference.Version})");
+                    EditorGUILayout.TextField(hasName ? entityName.ToString() : $"Entity({entityReference.Entity.Id}:{entityReference.Version})");
                     EditorGUILayout.ObjectField("From", hasGameObject ? gameObjectReference.GameObject : null, typeof(GameObject), true);
                 }
             }
