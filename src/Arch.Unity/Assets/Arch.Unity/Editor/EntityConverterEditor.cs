@@ -22,7 +22,6 @@ namespace Arch.Unity.Editor
                 {
                     EditorGUILayout.PropertyField(optionsProperty.FindPropertyRelative("convertHybridComponents"));
                     EditorGUILayout.PropertyField(optionsProperty.FindPropertyRelative("useDisabledComponent"));
-                    EditorGUILayout.PropertyField(optionsProperty.FindPropertyRelative("useNameComponent"));
                 }
             }
 

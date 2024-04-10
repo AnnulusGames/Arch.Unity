@@ -11,7 +11,6 @@ namespace Arch.Unity.Conversion
         [SerializeField] ConversionMode conversionMode = ConversionMode.ConvertAndDestroy;
         [SerializeField] bool convertHybridComponents = false;
         [SerializeField] bool useDisabledComponent = false;
-        [SerializeField] bool useNameComponent = false;
 
         public ConversionMode ConversionMode
         {
@@ -31,18 +30,11 @@ namespace Arch.Unity.Conversion
             set => useDisabledComponent = value;
         }
 
-        public bool UseNameComponent
-        {
-            get => useNameComponent;
-            set => useNameComponent = value;
-        }
-
         public bool Equals(EntityConversionOptions other)
         {
             return other.ConversionMode == ConversionMode &&
                 other.ConvertHybridComponents == ConvertHybridComponents &&
-                other.UseDisabledComponent == UseDisabledComponent &&
-                other.UseNameComponent == UseNameComponent;
+                other.UseDisabledComponent == UseDisabledComponent;
         }
 
         public override bool Equals(object obj)
@@ -53,7 +45,7 @@ namespace Arch.Unity.Conversion
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(ConversionMode, ConvertHybridComponents, UseDisabledComponent, UseNameComponent);
+            return HashCode.Combine(ConversionMode, ConvertHybridComponents, UseDisabledComponent);
         }
     }
 }

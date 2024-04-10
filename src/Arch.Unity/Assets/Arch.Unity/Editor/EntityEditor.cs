@@ -83,11 +83,10 @@ namespace Arch.Unity.Editor
                 {
                     var entityReference = selectionProxy.entityReference;
                     var hasGameObject = selectionProxy.world.TryGet(entityReference, out GameObjectReference gameObjectReference);
-                    var hasName = selectionProxy.world.TryGet(entityReference, out EntityName entityName);
 
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.TextField(hasName ? entityName.ToString() : $"Entity({entityReference.Entity.Id}:{entityReference.Version})");
+                        EditorGUILayout.TextField(hasGameObject ? gameObjectReference.GameObject.name : $"Entity({entityReference.Entity.Id}:{entityReference.Version})");
 
                         EditorGUI.indentLevel++;
                         EditorGUIUtility.labelWidth = 15f;

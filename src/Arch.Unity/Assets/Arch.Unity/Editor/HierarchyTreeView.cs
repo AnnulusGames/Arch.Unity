@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Arch.Core;
+using Arch.Unity.Conversion;
 
 namespace Arch.Unity.Editor
 {
@@ -129,11 +130,11 @@ namespace Arch.Unity.Editor
         TreeViewItem CreateItem(Entity entity)
         {
             var reference = TargetWorld.Reference(entity);
-            var hasName = TargetWorld.TryGet(entity, out EntityName entityName);
+            var hasGameObject = TargetWorld.TryGet(entity, out GameObjectReference gameObject);
             var item = Item.GetOrCreate();
             item.id = entity.Id;
             item.depth = 1;
-            item.displayName = hasName ? entityName.ToString() : $"Entity({entity.Id}:{reference.Version})";
+            item.displayName = hasGameObject ? gameObject.GameObject.name : $"Entity({entity.Id}:{reference.Version})";
             item.itemType = ItemType.Entity;
             item.entityReference = reference;
             return item;
