@@ -11,7 +11,7 @@ namespace Arch.Unity.Editor
     [CustomEditor(typeof(EntitySelectionProxy))]
     public sealed class EntityEditor : UnityEditor.Editor
     {
-        static readonly Dictionary<Type, bool> isExpandedDictionary = new();
+        static readonly Dictionary<string, bool> isExpandedDictionary = new();
 
         void OnEnable()
         {
@@ -35,9 +35,9 @@ namespace Arch.Unity.Editor
                 if (component is GameObjectReference or EntityConverter) continue;
 
                 var componentType = component.GetType();
-                if (!isExpandedDictionary.TryGetValue(componentType, out var isExpanded))
+                if (!isExpandedDictionary.TryGetValue(componentType.FullName, out var isExpanded))
                 {
-                    isExpandedDictionary.Add(componentType, true);
+                    isExpandedDictionary.Add(componentType.FullName, true);
                     isExpanded = true;
                 }
 
@@ -59,11 +59,11 @@ namespace Arch.Unity.Editor
                         }
                         else
                         {
-                            DrawMembers(component, 0);
+                            DrawMembers(component, componentType.FullName, 0);
                         }
                     }
                 }
-                isExpandedDictionary[componentType] = isExpanded;
+                isExpandedDictionary[componentType.FullName] = isExpanded;
 
                 DrawLine(Styles.ThinLineColor);
             }
@@ -113,7 +113,7 @@ namespace Arch.Unity.Editor
             EditorGUI.DrawRect(rect, color);
         }
 
-        static void DrawMembers(object target, int depth)
+        static void DrawMembers(object target, string rootPath, int depth)
         {
             if (depth > 10) return;
 
@@ -214,10 +214,10 @@ namespace Arch.Unity.Editor
                         EditorGUILayout.TextField(label, fieldValue.ConvertToString());
                         break;
                     default:
-                        var type = value.GetType();
-                        if (!isExpandedDictionary.TryGetValue(type, out var isExpanded))
+                        var path = $"{rootPath}/{fieldInfo.Name}";
+                        if (!isExpandedDictionary.TryGetValue(path, out var isExpanded))
                         {
-                            isExpandedDictionary.Add(type, true);
+                            isExpandedDictionary.Add(path, true);
                             isExpanded = true;
                         }
                         isExpanded = EditorGUILayout.Foldout(isExpanded, label, true, EditorStyles.foldoutHeader);
@@ -225,10 +225,10 @@ namespace Arch.Unity.Editor
                         {
                             using (new EditorGUI.IndentLevelScope())
                             {
-                                DrawMembers(value, depth + 1);
+                                DrawMembers(value, path, depth + 1);
                             }
                         }
-                        isExpandedDictionary[type] = isExpanded;
+                        isExpandedDictionary[path] = isExpanded;
                         break;
                 }
             }
