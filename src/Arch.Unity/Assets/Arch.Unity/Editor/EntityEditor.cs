@@ -116,6 +116,7 @@ namespace Arch.Unity.Editor
         static void DrawMembers(object target, string rootPath, int depth)
         {
             if (depth > 10) return;
+            if (target == null) return;
 
             foreach (var fieldInfo in target.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
             {
