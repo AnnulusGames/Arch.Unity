@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using Arch.Core;
+using Arch.Unity.Conversion;
 
 namespace Arch.Unity.Editor
 {
@@ -95,14 +96,19 @@ namespace Arch.Unity.Editor
         protected override void RowGUI(RowGUIArgs args)
         {
             var item = (Item)args.item;
-            var iconImage = item.itemType == ItemType.World ? Styles.ModelImporterIcon.image : Styles.GameObjectIcon.image;
-            var iconRect = args.rowRect;
-            iconRect.x += GetContentIndent(args.item);
-            iconRect.width = 16f;
-            GUI.DrawTexture(iconRect, iconImage);
+            var disabled = TargetWorld.IsAlive(item.entityReference) && TargetWorld.Has<GameObjectDisabled>(item.entityReference);
 
-            extraSpaceBeforeIconAndLabel = iconRect.width + 2f;
-            base.RowGUI(args);
+            using (new EditorGUI.DisabledScope(disabled))
+            {
+                var iconImage = item.itemType == ItemType.World ? Styles.ModelImporterIcon.image : Styles.GameObjectIcon.image;
+                var iconRect = args.rowRect;
+                iconRect.x += GetContentIndent(args.item);
+                iconRect.width = 16f;
+                GUI.DrawTexture(iconRect, iconImage);
+
+                extraSpaceBeforeIconAndLabel = iconRect.width + 2f;
+                base.RowGUI(args);
+            }
         }
 
         protected override void SelectionChanged(IList<int> selectedIds)
