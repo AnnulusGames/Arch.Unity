@@ -1,8 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using Arch.System;
-using System;
 
 namespace Arch.Unity.Toolkit
 {
@@ -30,7 +29,7 @@ namespace Arch.Unity.Toolkit
         }
 
         readonly PlayerLoopTiming playerLoopTiming;
-        readonly List<ISystem<SystemState>> systems = new();
+        readonly List<UnitySystemBase> systems = new();
 
         public static ISystemRunner Default { get; set; }
 

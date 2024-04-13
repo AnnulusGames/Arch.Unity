@@ -43,21 +43,16 @@ namespace Arch.Unity.Toolkit
         public void RegisterSystem(UnitySystemBase system, ISystemRunner runner)
         {
             systemSet.Add(system);
-            if (!systemGroups.TryGetValue(runner, out var group))
+            if (!systemGroups.TryGetValue(runner, out var list))
             {
-                group = new();
-                systemGroups.Add(runner, group);
+                list = new();
+                systemGroups.Add(runner, list);
             }
-            group.Add(system);
+            list.Add(system);
 
             if (IsRunning)
             {
-                if (!system.isInitialized)
-                {
-                    system.Initialize();
-                    system.isInitialized = true;
-                }
-
+                system.TryInitialize();
                 runner.Add(system);
             }
         }
@@ -87,12 +82,7 @@ namespace Arch.Unity.Toolkit
             {
                 foreach (var system in kv.Value)
                 {
-                    if (!system.isInitialized)
-                    {
-                        system.Initialize();
-                        system.isInitialized = true;
-                    }
-
+                    system.TryInitialize();
                     kv.Key.Add(system);
                 }
             }
