@@ -11,7 +11,17 @@ namespace Arch.Unity.Toolkit
         readonly CancellationTokenSource cancellationTokenSource = new();
         public CancellationToken CancellationToken => cancellationTokenSource.Token;
 
-        internal bool isInitialized;
+        bool isInitialized;
+
+        internal bool TryInitialize()
+        {
+            if (isInitialized) return false;
+
+            Initialize();
+
+            isInitialized = true;
+            return true;
+        }
 
         public override void Dispose()
         {

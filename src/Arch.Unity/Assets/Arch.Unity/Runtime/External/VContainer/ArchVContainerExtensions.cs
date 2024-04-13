@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Arch.Core;
+using Arch.System;
 using Arch.Unity.Toolkit;
 using VContainer;
 
@@ -52,10 +53,13 @@ namespace Arch.Unity
             builder.RegisterBuildCallback(resolver =>
             {
                 var app = resolver.Resolve<ArchApp>();
-                var systems = resolver.Resolve<IEnumerable<UnitySystemBase>>();
+                var systems = resolver.Resolve<IEnumerable<ISystem<SystemState>>>();
                 foreach (var system in systems)
                 {
-                    app.RegisterSystem(system);
+                    if (system is UnitySystemBase unitySystem)
+                    {
+                        app.RegisterSystem(unitySystem);
+                    }
                 }
                 app.Run();
             });

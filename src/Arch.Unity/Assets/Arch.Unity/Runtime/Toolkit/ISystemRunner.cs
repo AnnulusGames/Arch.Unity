@@ -1,5 +1,3 @@
-using Arch.System;
-
 namespace Arch.Unity.Toolkit
 {
     public interface ISystemRunner
