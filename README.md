@@ -256,8 +256,8 @@ You can also implement a custom SystemRunner by implementing `ISystemRunner`.
 public interface ISystemRunner
 {
     void Run();
-    void Add(ISystem<SystemState> system);
-    void Remove(ISystem<SystemState> system);
+    void Add(UnitySystemBase system);
+    void Remove(UnitySystemBase system);
 }
 ```
 
