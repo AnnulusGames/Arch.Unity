@@ -256,12 +256,12 @@ SystemRunnerはSystemの駆動を抽象化する機能です。Arch.UnityではP
 public interface ISystemRunner
 {
     void Run();
-    void Add(ISystem<SystemState> system);
-    void Remove(ISystem<SystemState> system);
+    void Add(UnitySystemBase system);
+    void Remove(UnitySystemBase system);
 }
 ```
 
-## VContainer Integration
+## VContainer
 
 Arch.Unityでは`ArchApp`を[VContainer](https://github.com/hadashiA/VContainer)で扱うための拡張が用意されています。
 
