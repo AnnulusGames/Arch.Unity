@@ -52,7 +52,12 @@ namespace Arch.Unity.Toolkit
 
             if (IsRunning)
             {
-                system.Initialize();
+                if (!system.isInitialized)
+                {
+                    system.Initialize();
+                    system.isInitialized = true;
+                }
+
                 runner.Add(system);
             }
         }
@@ -82,8 +87,13 @@ namespace Arch.Unity.Toolkit
             {
                 foreach (var system in kv.Value)
                 {
-                    system.Initialize();
-                    kv.Key.Remove(system);
+                    if (!system.isInitialized)
+                    {
+                        system.Initialize();
+                        system.isInitialized = true;
+                    }
+
+                    kv.Key.Add(system);
                 }
             }
 
