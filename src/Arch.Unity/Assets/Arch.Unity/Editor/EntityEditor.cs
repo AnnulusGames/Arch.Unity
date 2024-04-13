@@ -12,6 +12,7 @@ namespace Arch.Unity.Editor
     public sealed class EntityEditor : UnityEditor.Editor
     {
         static readonly Dictionary<string, bool> isExpandedDictionary = new();
+        readonly Dictionary<UnityEngine.Object, UnityEditor.Editor> editorCache = new();
 
         void OnEnable()
         {
@@ -21,6 +22,7 @@ namespace Arch.Unity.Editor
         void OnDisable()
         {
             EditorApplication.update -= Repaint;
+            editorCache.Clear();
         }
 
         protected override void OnHeaderGUI() { }
@@ -55,7 +57,8 @@ namespace Arch.Unity.Editor
                     {
                         if (component is UnityEngine.Component c)
                         {
-                            EditorGUILayout.ObjectField("Value", c, componentType, true);
+                            if (!editorCache.TryGetValue(c, out var editor)) editor = CreateEditor(c);
+                            if (editor != null) editor.OnInspectorGUI();
                         }
                         else
                         {
