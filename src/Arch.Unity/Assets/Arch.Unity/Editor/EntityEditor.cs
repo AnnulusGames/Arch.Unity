@@ -32,7 +32,7 @@ namespace Arch.Unity.Editor
 
             foreach (var component in proxy.world.GetAllComponents(proxy.entityReference))
             {
-                if (component is GameObjectReference or EntityConverter) continue;
+                if (component is GameObjectReference or EntityConverter or EntityName) continue;
 
                 var componentType = component.GetType();
                 if (!isExpandedDictionary.TryGetValue(componentType.FullName, out var isExpanded))
@@ -87,7 +87,7 @@ namespace Arch.Unity.Editor
 
                     using (new EditorGUILayout.HorizontalScope())
                     {
-                        EditorGUILayout.TextField(hasGameObject ? gameObjectReference.GameObject.name : $"Entity({entityReference.Entity.Id}:{entityReference.Version})");
+                        EditorGUILayout.TextField(hasName ? entityName.ToString() : $"Entity({entityReference.Entity.Id}:{entityReference.Version})");
 
                         EditorGUI.indentLevel++;
                         EditorGUIUtility.labelWidth = 15f;

@@ -77,6 +77,7 @@ namespace Arch.Unity.Conversion
             if (options.ConversionMode == ConversionMode.SyncWithEntity)
             {
                 converter.AddComponent(new GameObjectReference(gameObject));
+                converter.AddComponent(new EntityName(gameObject.name));
             }
 
             for (int i = 0; i < components.Length; i++)
