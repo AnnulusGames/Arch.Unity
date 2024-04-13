@@ -2,16 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Arch.Core;
-using Arch.System;
-using UnityEngine;
 
 namespace Arch.Unity.Toolkit
 {
     public sealed partial class ArchApp : IDisposable
     {
         World world;
-        Dictionary<ISystemRunner, Group<SystemState>> systemGroups;
-        HashSet<ISystem<SystemState>> systemSet = new();
+        Dictionary<ISystemRunner, List<UnitySystemBase>> systemGroups;
+        HashSet<UnitySystemBase> systemSet = new();
         bool isRunning;
 
         internal object[] createInstanceParameterCache;
@@ -31,23 +29,23 @@ namespace Arch.Unity.Toolkit
             var app = new ArchApp
             {
                 world = world,
-                systemGroups = new Dictionary<ISystemRunner, Group<SystemState>>(),
+                systemGroups = new(),
                 createInstanceParameterCache = new object[] { world }
             };
             return app;
         }
 
-        public void RegisterSystem(ISystem<SystemState> system)
+        public void RegisterSystem(UnitySystemBase system)
         {
             RegisterSystem(system, SystemRunner.Default);
         }
 
-        public void RegisterSystem(ISystem<SystemState> system, ISystemRunner runner)
+        public void RegisterSystem(UnitySystemBase system, ISystemRunner runner)
         {
             systemSet.Add(system);
             if (!systemGroups.TryGetValue(runner, out var group))
             {
-                group = new Group<SystemState>(runner.GetType().Name);
+                group = new();
                 systemGroups.Add(runner, group);
             }
             group.Add(system);
@@ -59,19 +57,19 @@ namespace Arch.Unity.Toolkit
             }
         }
 
-        public TSystem GetSystem<TSystem>() where TSystem : ISystem<SystemState>
+        public TSystem GetSystem<TSystem>() where TSystem : UnitySystemBase
         {
             return GetSystems<TSystem>().FirstOrDefault();
         }
 
-        public IEnumerable<TSystem> GetSystems<TSystem>() where TSystem : ISystem<SystemState>
+        public IEnumerable<TSystem> GetSystems<TSystem>() where TSystem : UnitySystemBase
         {
-            return systemGroups.SelectMany(x => x.Value.Find<TSystem>());
+            return systemGroups.SelectMany(x => x.Value.OfType<TSystem>());
         }
 
-        public IEnumerable<ISystem<SystemState>> GetAllSystems()
+        public IEnumerable<UnitySystemBase> GetAllSystems()
         {
-            return systemGroups.SelectMany(x => x.Value.Find<ISystem<SystemState>>());
+            return systemGroups.SelectMany(x => x.Value.OfType<UnitySystemBase>());
         }
 
         public ArchApp Run()
@@ -82,8 +80,11 @@ namespace Arch.Unity.Toolkit
 
             foreach (var kv in systemGroups)
             {
-                kv.Value.Initialize();
-                kv.Key.Add(kv.Value);
+                foreach (var system in kv.Value)
+                {
+                    system.Initialize();
+                    kv.Key.Remove(system);
+                }
             }
 
             return this;
@@ -92,9 +93,13 @@ namespace Arch.Unity.Toolkit
         public void Stop()
         {
             if (!IsRunning) throw new InvalidOperationException("App is not running.");
+
             foreach (var kv in systemGroups)
             {
-                kv.Key.Remove(kv.Value);
+                foreach (var system in kv.Value)
+                {
+                    kv.Key.Remove(system);
+                }
             }
         }
 

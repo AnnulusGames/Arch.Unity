@@ -17,12 +17,12 @@ namespace Arch.Unity.Toolkit
             readonly ArchApp app;
             readonly ISystemRunner systemRunner;
 
-            public void Add(ISystem<SystemState> system)
+            public void Add(UnitySystemBase system)
             {
                 app.RegisterSystem(system, systemRunner);
             }
 
-            public void Add<T>() where T : BaseSystem<World, SystemState>
+            public void Add<T>() where T : UnitySystemBase
             {
                 var parameters = app.createInstanceParameterCache;
                 var system = (T)Activator.CreateInstance(typeof(T), parameters);

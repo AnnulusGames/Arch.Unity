@@ -9,17 +9,17 @@ namespace Arch.Unity.Toolkit
 
     public sealed class FakeSystemRunner : ISystemRunner
     {
-        readonly List<ISystem<SystemState>> systems = new();
+        readonly List<UnitySystemBase> systems = new();
 
         public double Time { get; set; } = 0.0;
         public float DeltaTime { get; set; } = 0.1f;
 
-        public void Add(ISystem<SystemState> system)
+        public void Add(UnitySystemBase system)
         {
             systems.Add(system);
         }
 
-        public void Remove(ISystem<SystemState> system)
+        public void Remove(UnitySystemBase system)
         {
             systems.Remove(system);
         }
