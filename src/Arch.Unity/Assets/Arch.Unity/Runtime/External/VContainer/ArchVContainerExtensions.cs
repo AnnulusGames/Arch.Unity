@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Arch.Core;
-using Arch.System;
 using Arch.Unity.Toolkit;
 using VContainer;
 
@@ -19,12 +18,12 @@ namespace Arch.Unity
                 this.containerBuilder = containerBuilder;
             }
 
-            public void Add<T>() where T : ISystem<SystemState>
+            public void Add<T>() where T : UnitySystemBase
             {
                 containerBuilder.RegisterSystemIntoArchApp<T>();
             }
 
-            public void Add<T>(ISystemRunner systemRunner) where T : ISystem<SystemState>
+            public void Add<T>(ISystemRunner systemRunner) where T : UnitySystemBase
             {
                 containerBuilder.RegisterSystemIntoArchApp<T>(systemRunner);
             }
@@ -36,7 +35,7 @@ namespace Arch.Unity
         }
 
         public static RegistrationBuilder RegisterSystemFromArchApp<T>(this IContainerBuilder builder, ArchApp app)
-            where T : ISystem<SystemState>
+            where T : UnitySystemBase
         {
             return builder.RegisterInstance(app.GetSystem<T>());
         }
@@ -53,7 +52,7 @@ namespace Arch.Unity
             builder.RegisterBuildCallback(resolver =>
             {
                 var app = resolver.Resolve<ArchApp>();
-                var systems = resolver.Resolve<IEnumerable<ISystem<SystemState>>>();
+                var systems = resolver.Resolve<IEnumerable<UnitySystemBase>>();
                 foreach (var system in systems)
                 {
                     app.RegisterSystem(system);
@@ -68,13 +67,13 @@ namespace Arch.Unity
         }
 
         public static RegistrationBuilder RegisterSystemIntoArchApp<T>(this IContainerBuilder builder)
-            where T : ISystem<SystemState>
+            where T : UnitySystemBase
         {
             return RegisterSystemIntoArchApp<T>(builder, SystemRunner.Default);
         }
 
         public static RegistrationBuilder RegisterSystemIntoArchApp<T>(this IContainerBuilder builder, ISystemRunner systemRunner)
-            where T : ISystem<SystemState>
+            where T : UnitySystemBase
         {
             var registrationBuilder = new SystemRegistrationBuilder(typeof(T), systemRunner).AsSelf().AsImplementedInterfaces();
             return builder.Register(registrationBuilder);

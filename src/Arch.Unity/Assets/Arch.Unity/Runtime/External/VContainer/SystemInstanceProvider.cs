@@ -1,13 +1,12 @@
 #if ARCH_UNITY_VCONTAINER_SUPPORT
 using System.Collections.Generic;
-using Arch.System;
 using Arch.Unity.Toolkit;
 using VContainer;
 
 namespace Arch.Unity
 {
     internal sealed class SystemInstanceProvider<T> : IInstanceProvider
-        where T : ISystem<SystemState>
+        where T : UnitySystemBase
     {
         readonly IInjector injector;
         readonly ISystemRunner systemRunner;

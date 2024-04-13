@@ -44,7 +44,7 @@ public struct IncrementScoreJob : IJobArchChunk
     }
 }
 
-public sealed partial class HelloSystem : BaseSystem<World, SystemState>
+public sealed partial class HelloSystem : UnitySystemBase
 {
     public HelloSystem(World world) : base(world) { }
 

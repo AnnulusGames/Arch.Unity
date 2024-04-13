@@ -43,12 +43,12 @@ namespace Arch.Unity.Toolkit
         public static readonly ISystemRunner PostLateUpdate;
         public static readonly ISystemRunner TimeUpdate;
 
-        public void Add(ISystem<SystemState> system)
+        public void Add(UnitySystemBase system)
         {
             systems.Add(system);
         }
 
-        public void Remove(ISystem<SystemState> system)
+        public void Remove(UnitySystemBase system)
         {
             systems.Remove(system);
         }
