@@ -12,22 +12,37 @@ namespace Arch.Unity.Toolkit
         public CancellationToken CancellationToken => cancellationTokenSource.Token;
 
         bool isInitialized;
+        bool isDisposed;
 
         internal bool TryInitialize()
         {
             if (isInitialized) return false;
 
-            Initialize();
-
-            isInitialized = true;
-            return true;
+            try
+            {
+                Initialize();
+                return true;
+            }
+            finally
+            {
+                isInitialized = true;
+            }
         }
 
         public override void Dispose()
         {
-            base.Dispose();
-            cancellationTokenSource.Cancel();
-            cancellationTokenSource.Dispose();
+            if (isDisposed) return;
+
+            try
+            {
+                base.Dispose();
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource.Dispose();
+            }
+            finally
+            {
+                isDisposed = true;
+            }
         }
     }
 }
