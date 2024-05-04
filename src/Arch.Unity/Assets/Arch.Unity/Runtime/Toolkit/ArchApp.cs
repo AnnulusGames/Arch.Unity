@@ -106,6 +106,15 @@ namespace Arch.Unity.Toolkit
         public void Dispose()
         {
             if (isRunning) Stop();
+
+            foreach (var kv in systemGroups)
+            {
+                foreach (var system in kv.Value)
+                {
+                    system.Dispose();
+                }
+            }
+
             world.Dispose();
         }
     }
