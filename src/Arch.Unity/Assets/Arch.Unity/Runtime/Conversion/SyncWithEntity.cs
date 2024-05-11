@@ -16,7 +16,7 @@ namespace Arch.Unity.Conversion
         {
             if (!IsEntityAlive()) return;
 
-            if (UseDisabledComponent)
+            if (UseDisabledComponent && World.Has<GameObjectDisabled>(EntityReference))
             {
                 World.Remove<GameObjectDisabled>(EntityReference);
             }
@@ -26,7 +26,7 @@ namespace Arch.Unity.Conversion
         {
             if (!IsEntityAlive()) return;
 
-            if (UseDisabledComponent)
+            if (UseDisabledComponent && !World.Has<GameObjectDisabled>(EntityReference))
             {
                 World.Add<GameObjectDisabled>(EntityReference);
             }
@@ -38,6 +38,12 @@ namespace Arch.Unity.Conversion
             {
                 World.Destroy(EntityReference);
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public EntityReference GetEntityReference()
+        {
+            return EntityReference;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
