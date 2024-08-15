@@ -42,7 +42,8 @@ namespace Arch.Unity.Toolkit
 
         public void RegisterSystem(UnitySystemBase system, ISystemRunner runner)
         {
-            systemSet.Add(system);
+            if (!systemSet.Add(system)) return;
+
             if (!systemGroups.TryGetValue(runner, out var list))
             {
                 list = new();
