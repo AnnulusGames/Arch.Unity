@@ -13,14 +13,14 @@ namespace Arch.Unity
         {
             if (!_isUnmanagedCache.TryGetValue(type, out bool result))
             {
-                if (!type.IsValueType)
-                {
-                    result = false;
-                }
-                else if (type.IsPrimitive || type.IsPointer || type.IsEnum)
+                if (type.IsPrimitive || type.IsPointer || type.IsEnum)
                 {
                     result = true;
                 }
+                else if (!type.IsValueType)
+                {
+                    result = false;
+                }   
                 else
                 {
                     result = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
