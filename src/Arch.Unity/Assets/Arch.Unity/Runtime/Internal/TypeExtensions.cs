@@ -13,11 +13,7 @@ namespace Arch.Unity
         {
             if (!_isUnmanagedCache.TryGetValue(type, out bool result))
             {
-                if (!type.IsValueType)
-                {
-                    result = false;
-                }
-                else if (type.IsPrimitive || type.IsPointer || type.IsEnum)
+                if (type.IsValueType || type.IsEnum || type.IsPointer)
                 {
                     result = true;
                 }
