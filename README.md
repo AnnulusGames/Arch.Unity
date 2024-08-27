@@ -18,7 +18,7 @@ Arch is an ECS framework for C# that offers sufficient speed and allows the use 
 
 ### Requirements
 
-* Unity 2022.2 or later
+* Unity 2022.3.12f1 or later
 * Burst 1.6.0 or later
 * Collections 2.0.0 or later
 * Arch 1.0.0 or later
