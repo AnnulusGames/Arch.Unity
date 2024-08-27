@@ -11,22 +11,27 @@ namespace Arch.Unity
 
         public static bool IsUnmanaged(this Type type)
         {
-            if (!_isUnmanagedCache.TryGetValue(type, out bool result))
+            if (_isUnmanagedCache.TryGetValue(type, out bool result))
             {
-                if (type.IsValueType || type.IsEnum || type.IsPointer)
-                {
-                    result = true;
-                }
-                else
-                {
-                    result = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                        .All(f => IsUnmanaged(f.FieldType));
-                }
-
-                _isUnmanagedCache[type] = result;
+                return result;
             }
+            
+			if (type.IsPrimitive || type.IsEnum || type.IsPointer)
+			{
+				result = true;
+			}
+			else if (type.IsValueType)
+			{
+				result = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+							 .All(field => field.FieldType.IsUnmanaged());
+			}
+			else
+			{
+				result = false;
+			}
 
-            return result;
+			_isUnmanagedCache[type] = result;
+			return result;
         }
     }
 }
