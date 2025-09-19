@@ -13,7 +13,7 @@ namespace Arch.Unity.Jobs
         int count;
 
         public int Count => count;
-        public int ComponentCount => componentMap.Count;
+        public int ComponentCount => componentMap.Count();
 
         internal static NativeChunk Create(Chunk chunk, AllocatorManager.AllocatorHandle allocator, ref NativeList<GCHandle> gcHandles)
         {
