@@ -31,6 +31,8 @@ namespace Arch.Unity.Toolkit
         readonly PlayerLoopTiming playerLoopTiming;
         readonly List<UnitySystemBase> systems = new();
 
+        public PlayerLoopTiming Timing => playerLoopTiming;
+
         public static ISystemRunner Default { get; set; }
 
         public static readonly ISystemRunner Initialization;

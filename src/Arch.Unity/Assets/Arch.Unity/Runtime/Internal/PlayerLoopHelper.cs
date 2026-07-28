@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.LowLevel;
@@ -36,7 +37,7 @@ namespace Arch.Unity
         TimeUpdate = 7,
     }
 
-    internal static class PlayerLoopHelper
+    public static class PlayerLoopHelper
     {
         public static event Action OnInitialization;
         public static event Action OnEarlyUpdate;
@@ -50,6 +51,71 @@ namespace Arch.Unity
         static bool initialized;
         static bool eventsInitialized;
 
+        static readonly Dictionary<ISystemRunner, int> runnerRefCounts = new();
+
+        public static void Register(ISystemRunner runner)
+        {
+            if (runner == null) throw new ArgumentNullException(nameof(runner));
+
+            if (runnerRefCounts.TryGetValue(runner, out var count))
+            {
+                runnerRefCounts[runner] = count + 1;
+                return;
+            }
+
+            runnerRefCounts[runner] = 1;
+            Subscribe(runner.Timing, runner.Run);
+        }
+
+        public static void Unregister(ISystemRunner runner)
+        {
+            if (runner == null) throw new ArgumentNullException(nameof(runner));
+
+            if (!runnerRefCounts.TryGetValue(runner, out var count)) return;
+
+            if (count <= 1)
+            {
+                runnerRefCounts.Remove(runner);
+                Unsubscribe(runner.Timing, runner.Run);
+            }
+            else
+            {
+                runnerRefCounts[runner] = count - 1;
+            }
+        }
+
+        static void Subscribe(PlayerLoopTiming timing, Action run)
+        {
+            switch (timing)
+            {
+                case PlayerLoopTiming.Initialization: OnInitialization += run; break;
+                case PlayerLoopTiming.EarlyUpdate: OnEarlyUpdate += run; break;
+                case PlayerLoopTiming.FixedUpdate: OnFixedUpdate += run; break;
+                case PlayerLoopTiming.PreUpdate: OnPreUpdate += run; break;
+                case PlayerLoopTiming.Update: OnUpdate += run; break;
+                case PlayerLoopTiming.PreLateUpdate: OnPreLateUpdate += run; break;
+                case PlayerLoopTiming.PostLateUpdate: OnPostLateUpdate += run; break;
+                case PlayerLoopTiming.TimeUpdate: OnTimeUpdate += run; break;
+                default: throw new ArgumentOutOfRangeException(nameof(timing), timing, null);
+            }
+        }
+
+        static void Unsubscribe(PlayerLoopTiming timing, Action run)
+        {
+            switch (timing)
+            {
+                case PlayerLoopTiming.Initialization: OnInitialization -= run; break;
+                case PlayerLoopTiming.EarlyUpdate: OnEarlyUpdate -= run; break;
+                case PlayerLoopTiming.FixedUpdate: OnFixedUpdate -= run; break;
+                case PlayerLoopTiming.PreUpdate: OnPreUpdate -= run; break;
+                case PlayerLoopTiming.Update: OnUpdate -= run; break;
+                case PlayerLoopTiming.PreLateUpdate: OnPreLateUpdate -= run; break;
+                case PlayerLoopTiming.PostLateUpdate: OnPostLateUpdate -= run; break;
+                case PlayerLoopTiming.TimeUpdate: OnTimeUpdate -= run; break;
+                default: throw new ArgumentOutOfRangeException(nameof(timing), timing, null);
+            }
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         static void Init()
         {
@@ -58,16 +124,6 @@ namespace Arch.Unity
                 // Initialize JobArchChunkHandle
                 JobArchChunkHandle.Initialize();
                 OnUpdate += JobArchChunkHandle.CheckHandles;
-
-                // Initialize Apps
-                OnInitialization += SystemRunner.Initialization.Run;
-                OnEarlyUpdate += SystemRunner.EarlyUpdate.Run;
-                OnFixedUpdate += SystemRunner.FixedUpdate.Run;
-                OnPreUpdate += SystemRunner.PreUpdate.Run;
-                OnUpdate += SystemRunner.Update.Run;
-                OnPreLateUpdate += SystemRunner.PreLateUpdate.Run;
-                OnPostLateUpdate += SystemRunner.PostLateUpdate.Run;
-                OnTimeUpdate += SystemRunner.TimeUpdate.Run;
 
                 eventsInitialized = true;
             }

@@ -48,6 +48,7 @@ namespace Arch.Unity.Toolkit
             {
                 list = new();
                 systemGroups.Add(runner, list);
+                if (IsRunning) PlayerLoopHelper.Register(runner);
             }
             list.Add(system);
 
@@ -86,6 +87,7 @@ namespace Arch.Unity.Toolkit
                     system.TryInitialize();
                     kv.Key.Add(system);
                 }
+                PlayerLoopHelper.Register(kv.Key);
             }
 
             return this;
@@ -101,7 +103,10 @@ namespace Arch.Unity.Toolkit
                 {
                     kv.Key.Remove(system);
                 }
+                PlayerLoopHelper.Unregister(kv.Key);
             }
+
+            isRunning = false;
         }
 
         public void Dispose()

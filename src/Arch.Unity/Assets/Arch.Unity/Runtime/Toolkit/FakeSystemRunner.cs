@@ -11,6 +11,8 @@ namespace Arch.Unity.Toolkit
     {
         readonly List<UnitySystemBase> systems = new();
 
+        public PlayerLoopTiming Timing { get; set; } = PlayerLoopTiming.Update;
+
         public double Time { get; set; } = 0.0;
         public float DeltaTime { get; set; } = 0.1f;
 
